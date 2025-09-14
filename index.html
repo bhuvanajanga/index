@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BHUVANA JANGA — Portfolio</title>
+  <style>
+    :root{
+      --bg: linear-gradient(135deg,#7c3aed,#06b6d4 50%,#34d399);
+      --accent: #7c3aed;
+      --glass: rgba(255,255,255,0.75);
+      --card-bg: rgba(255,255,255,0.85);
+      --text-dark: #0f172a;
+      --muted: rgba(15,23,42,0.7);
+      --radius: 18px;
+    }
+
+    /* THEMES */
+    :root.theme-aurora { --bg: linear-gradient(135deg,#f472b6,#60a5fa 50%,#34d399); --accent:#f472b6; }
+    :root.theme-sunset { --bg: linear-gradient(135deg,#f59e0b,#f43f5e 50%,#7c3aed); --accent:#f59e0b; }
+    :root.theme-ocean  { --bg: linear-gradient(135deg,#06b6d4,#3b82f6 50%,#6366f1); --accent:#06b6d4; }
+    :root.theme-forest { --bg: linear-gradient(135deg,#34d399,#a3e635 50%,#14b8a6); --accent:#10b981; }
+    :root.theme-beach { --bg: linear-gradient(135deg,#010309,#0f0625ee 50%,#0f0528); --accent:#f472b6; }
+
+
+    /* RESET + BASE */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+      background:var(--bg);
+      color:var(--text-dark);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.5;
+    }
+
+    /* soft grain */
+    body::before{
+      content:""; position:fixed; inset:0; pointer-events:none;
+      background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.06) 1px, transparent 1px);
+      background-size:20px 20px; opacity:0.35;
+    }
+
+    .container{max-width:1100px;margin:0 auto;padding:28px;}
+
+    header{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      position:sticky;top:0;padding:12px 0;background:linear-gradient( to bottom, rgba(0,0,0,0.15), transparent);
+      z-index:40;backdrop-filter: blur(6px);
+    }
+    .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:white}
+    .logo{
+      width:48px;height:48px;border-radius:12px;display:inline-grid;place-items:center;
+      background:var(--card-bg);box-shadow:0 18px 40px rgba(2,6,23,0.2);font-weight:700;color:var(--accent);
+      font-size:18px;border:3px solid rgba(255,255,255,0.12);
+    }
+    nav{display:flex;gap:8px;align-items:center}
+    nav a{color:rgba(255,255,255,0.95);text-decoration:none;padding:8px 12px;border-radius:999px;font-weight:600}
+    nav a:hover{background:rgba(255,255,255,0.08)}
+
+    .controls{display:flex;gap:8px;align-items:center}
+    .btn{background:rgba(0,0,0,0.65);color:white;padding:10px 14px;border-radius:12px;border:none;cursor:pointer;font-weight:600}
+    .btn:active{transform:translateY(1px)}
+    .btn.ghost{background:rgba(255,255,255,0.18)}
+
+    /* HERO */
+    .hero{display:grid;grid-template-columns:1fr 360px;gap:28px;align-items:center;padding:36px 0}
+    .hero h1{font-size:44px;color:white;margin:0;letter-spacing:-0.6px}
+    .tag{color:rgba(255,255,255,0.9);margin-top:8px;font-weight:600}
+    .lead{color:rgba(255,255,255,0.9);margin-top:18px;max-width:62ch}
+
+    .profile-wrap{display:flex;flex-direction:column;align-items:center}
+    .profile{width:220px;height:220px;border-radius:50%;overflow:hidden;border:6px solid rgba(255,255,255,0.85);box-shadow:0 18px 40px rgba(2,6,23,0.45)}
+    .profile img{width:100%;height:100%;object-fit:cover}
+
+    /* SECTIONS */
+    section{margin-top:28px}
+    .section-title{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+    .section-title .bar{width:6px;height:40px;border-radius:6px;background:rgba(0,0,0,0.6)}
+    .section-title h2{margin:0;color:white;font-size:22px}
+
+    /* CARD */
+    .card{background:var(--card-bg);padding:18px;border-radius:var(--radius);box-shadow:0 12px 30px rgba(2,6,23,0.12);color:var(--text-dark)}
+    .grid{display:grid;gap:14px}
+
+    /* SKILLS */
+    .chips{display:flex;flex-wrap:wrap;gap:8px}
+    .chip{background:rgba(0,0,0,0.06);padding:8px 12px;border-radius:999px;font-weight:600;color:var(--muted);}
+
+    /* PROJECTS */
+    .filters{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    .search{flex:1;min-width:200px}
+    .search input{width:100%;padding:10px 12px;border-radius:12px;border:1px solid rgba(2,6,23,0.06);font-size:15px}
+
+    .category-btn{padding:8px 12px;border-radius:999px;border:none;background:rgba(255,255,255,0.75);font-weight:700;cursor:pointer}
+    .category-btn.active{background:rgba(0,0,0,0.8);color:white}
+
+    .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:12px}
+    .project{
+      border-radius:14px;overflow:hidden;display:flex;flex-direction:column;background:rgba(255,255,255,0.96);border:1px solid rgba(2,6,23,0.06);
+      transform:translateZ(0);transition:transform .22s ease, box-shadow .22s;
+    }
+    .project:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(2,6,23,0.12)}
+    .proj-hero{height:92px;background:linear-gradient(90deg, rgba(2,6,23,0.6), rgba(2,6,23,0.3));color:white;padding:12px;display:flex;flex-direction:column;justify-content:flex-end}
+    .proj-body{padding:14px;color:var(--muted);flex:1}
+    .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .tag-pill{font-size:12px;padding:6px 8px;border-radius:999px;background:rgba(0,0,0,0.06)}
+
+    /* CONTACT */
+    form{display:grid;gap:10px}
+    input,textarea{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(2,6,23,0.06)}
+    .contact-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+    /* FOOTER */
+    footer{margin-top:28px;padding:18px 0;color:rgba(255,255,255,0.92);display:flex;justify-content:space-between;align-items:center;gap:12px}
+
+    /* small screens */
+    @media (max-width:880px){
+      .hero{grid-template-columns:1fr; text-align:center}
+      .profile-wrap{order:-1;margin-bottom:10px}
+      nav{display:none}
+      .container{padding:18px}
+      header{padding:8px 0}
+      .hero h1{font-size:36px}
+    }
+
+    /* reveal animation */
+    .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease, transform .6s ease}
+    .reveal.show{opacity:1;transform:none}
+  </style>
+</head>
+<body class="theme-aurora">
+  <div class="container">
+    <header>
+      <a href="#home" class="brand" aria-label="home">
+        <div class="logo">B</div>
+        <div style="color:white;font-weight:800">BHUVANA JANGA</div>
+      </a>
+
+      <nav aria-label="main navigation">
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#project">Project</a>
+        <a href="#resume">Resume</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <div class="controls">
+        <button class="btn" id="themeBtn" title="Change theme">Theme</button>
+        <a class="btn ghost" href="#resume" id="downloadCv">Download CV</a>
+      </div>
+    </header>
+
+    <!-- HERO -->
+    <section id="home" class="hero">
+      <div>
+        <h1 class="reveal">BHUVANA JANGA</h1>
+        <div class="tag reveal">Fresher </div>
+        <p class="lead reveal">
+          <!--Looking for an Entry-level position as a software Engineer in a dynamic firm that values my analytical and Technical skills and providing scope for updating my knowledge.-->
+      Web Developer,AI & Software Developer
+        </p>
+
+        <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap" class="reveal">
+          <a class="btn" href="#project">View Project</a>
+          <a class="btn ghost" href="#contact">Contact Me</a>
+        </div>
+      </div>
+
+      <div class="profile-wrap reveal" aria-hidden="false">
+        <div style="position:relative;margin-bottom:10px">
+          <div style="position:absolute;inset:-6px;border-radius:999px;filter:blur(20px);opacity:0.85;background:var(white)"></div>
+          <div class="profile">
+            <img alt="profile" src="C:\Users\Harshit\OneDrive\Pictures\bhuvana_photo.jpg">
+          </div>
+        </div>
+        <!--<div style="color:white;opacity:.9">Tip: Replace with your photo</div>-->
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="reveal">
+      <div class="section-title">
+        <div class="bar"></div>
+        <h2>About</h2>
+      </div>
+      <div class="card">
+        <p style="margin:0">
+          <p>I'm Bhuvana ,an aspiring AI and software developer who loves turning ideas into real applications,With a foundation in <strong>python,AI</strong>and <strong>web development</strong>,I enjoy building projects that bring technology closer to people's lives.I'm curious,motivated and always excited to take on challenges that help me learn and grow.</p>
+          <p>Looking for an Entry-level position as a software Engineer in a dynamic firm that values my analytical and Technical skills and providing scope for updating my knowledge,I seek a company that will help me contribute to its development while concurrently aiding my personal growth.</p>
+
+          <!--strong>Header:</strong> Shows name and tagline about empowerment.
+          <strong>About:</strong> Highlighting  skills.
+          <strong>Projects:</strong> Showcases work including social impact projects.
+        </p>
+      </div>
+    </section-->
+
+    <!-- SKILLS -->
+    <section id="skills" class="reveal">
+      <div class="section-title">
+        <div class="bar"></div>
+        <h2>Skills</h2>
+      </div>
+
+      <div class="grid" style="grid-template-columns:1fr 1fr;">
+        <div class="card">
+          <h3 style="margin-top:0">Technical</h3>
+          <div class="chips" aria-hidden="false">
+            <span class="chip">Python</span>
+            <span class="chip">JavaScript</span>
+            <span class="chip">HTML5/CSS3</span>
+            <span class="chip">AI </span>
+            <span class="chip">Java</span>
+            <span class="chip">Machine Learning</span>
+            <span class="chip">Next.js</span>
+            <span class="chip">SQL</span>
+          </div>
+        </div>
+        <div class="card">
+          <h3 style="margin-top:0">Personal</h3>
+          <div class="chips">
+            <span class="chip">Problem Solving</span>
+            <span class="chip">Clear Communication</span>
+            <span class="chip">Diligent and Confidence</span>
+            <span class="chip"> Good Listening</span>
+            <span class="chip">Good Analytical and Logical</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="project" class="reveal">
+      <div class="section-title">
+        <div class="bar"></div>
+        <h2>Project</h2>
+      </div>
+
+      <div class="card">
+        <div class="filters" style="margin-bottom:12px">
+          <div class="search" style="flex:1">
+            <input id="searchInput" placeholder="Search projects or tags..." aria-label="search project">
+          </div>
+          <div id="categoryWrap" style="display:flex;gap:8px">
+            <button class="category-btn active" data-cat="All">All</button>
+            <!--button class="category-btn" data-cat="AI/ML">AI/ML</button-->
+            <!--button class="category-btn" data3-cat="HealthTech">HealthTech</button-->
+            <!--button class="category-btn" data-cat="Web">Web</button-->
+          </div>
+        </div>
+
+        <div id="projectsGrid" class="projects-grid" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- RESUME -->
+    <section id="resume" class="reveal">
+      <div class="section-title">
+        <div class="bar"></div>
+        <h2>Resume</h2>
+      </div>
+      <div class="card" style="display:flex;flex-direction:column;gap:10px">
+        <p style="margin:0">Download my resume.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <a class="btn" id="downloadBtn" href="c:\Users\Harshit\Downloads\Bhuvana_janga_resume.docx" download>Download PDF</a>
+          <a class="btn ghost" href="#contact">Request via Email</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="reveal">
+      <div class="section-title">
+        <div class="bar"></div>
+        <h2>Contact</h2>
+      </div>
+
+      <div class="card">
+        <form id="contactForm" action="mailto:bhuvanajanga8@gmail.com" method="post" enctype="text/plain">
+          <input name="name" required placeholder="Your name">
+          <input name="email" type="email" required placeholder="Your email">
+          <textarea name="message" rows="4" required placeholder="Say hello..."></textarea>
+          <div class="contact-foot">
+            <div style="color:var(--muted);font-weight:600">
+              Email: <a href="mailto:bhuvanajanga8@gmail.com">bhuvanajanag8@gmail.com</a> &nbsp; • &nbsp;
+              Phone: +91-9346456526
+            </div>
+            <div style="display:flex;gap:8px">
+              <button type="submit" class="btn">Send</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <footer>
+      <div>© <span id="2025"></span> Bhuvana Janga. All rights reserved.</div>
+    
+    </footer>
+
+  </div>
+
+  <script>
+    /* INITIAL DATA - replace / extend */
+    const PROJECTS = [
+      {
+        title: "Predicting the Stock Markets Trends Using Machine Learning and Deep Learning Algorithms via Continous and Binary Data a Comparative Analysis",
+        tags: ["Python","HTML5","Machine Learning"],
+        impact: "Helpful for the Investors who invests their money in the stock markets.",
+        link: "#",
+        year: 2023,
+        category: "Python/ML"
+      },
+      /*{
+        title: "Multi-Language Patient Communication (Apollo Clinic)",
+        tags: ["NLP","IVR","SMS","WhatsApp","Python"],
+        impact: "Appointment confirmations & reminders in 5 languages.",
+        social: "Improves access to care for non-English speakers.",
+        link: "#",
+        year: 2025,
+        category: "HealthTech"
+      },
+      {
+        title: "Mobile-first Chat App (Next.js)",
+        tags: ["Next.js","Auth0","Supabase","tRPC"],
+        impact: "Secure mobile-optimized chat experience.",
+        social: "Accessible communication for communities.",
+        link: "#",
+        year: 2024,
+        category: "Web"
+      }*/
+    ];
+
+    /* THEMES cycling */
+    const themes = ['theme-aurora','theme-sunset','theme-ocean','theme-forest','thme-beach'];
+    let themeIndex = 0;
+    const themeBtn = document.getElementById('themeBtn');
+    themeBtn.addEventListener('click', () => {
+      themeIndex = (themeIndex + 1) % themes.length;
+      document.documentElement.className = themes[themeIndex];
+    });
+
+    /* render projects */
+    const projectsGrid = document.getElementById('projectsGrid');
+    const searchInput = document.getElementById('searchInput');
+    const categoryWrap = document.getElementById('categoryWrap');
+    let activeCategory = 'All';
+
+    function createProjectCard(p){
+      const el = document.createElement('a');
+      el.href = p.link || '#';
+      el.className = 'project';
+      el.target = '_blank';
+      el.rel = 'noreferrer';
+
+      const hero = document.createElement('div');
+      hero.className = 'proj-hero';
+      hero.innerHTML = `<div style="font-size:12px;opacity:0.85">${p.year} • ${p.category}</div>
+                        <div style="font-weight:800;font-size:18px">${p.title}</div>`;
+      el.appendChild(hero);
+
+      const body = document.createElement('div');
+      body.className = 'proj-body';
+      body.innerHTML = `<div><strong>Impact:</strong> ${p.impact}</div>
+                        <div style="margin-top:6px"><strong>Social:</strong> ${p.social}</div>`;
+
+      const tags = document.createElement('div');
+      tags.className = 'tags';
+      p.tags.forEach(t=>{
+        const sp = document.createElement('span');
+        sp.className = 'tag-pill';
+        sp.textContent = t;
+        tags.appendChild(sp);
+      });
+      body.appendChild(tags);
+      el.appendChild(body);
+      return el;
+    }
+
+    function renderProjects(){
+      const q = (searchInput.value || '').toLowerCase().trim();
+      projectsGrid.innerHTML = '';
+      const filtered = PROJECTS.filter(p=>{
+        const matchesQ = p.title.toLowerCase().includes(q) || p.tags.join(' ').toLowerCase().includes(q);
+        const matchesCat = activeCategory === 'All' || p.category === activeCategory;
+        return matchesQ && matchesCat;
+      });
+      if(filtered.length === 0){
+        const n = document.createElement('div'); n.textContent = 'No projects found.'; n.style.color='var(--muted)';
+        projectsGrid.appendChild(n);
+        return;
+      }
+      filtered.forEach(p=>projectsGrid.appendChild(createProjectCard(p)));
+    }
+    searchInput.addEventListener('input', renderProjects);
+
+    categoryWrap.addEventListener('click', (e)=>{
+      const btn = e.target.closest('button');
+      if(!btn) return;
+      Array.from(categoryWrap.querySelectorAll('button')).forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      activeCategory = btn.dataset.cat;
+      renderProjects();
+    });
+
+    // initial
+    renderProjects();
+
+    /* reveal on scroll */
+    const reveals = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver(entries=>{
+      entries.forEach(ent=>{
+        if(ent.isIntersecting){
+          ent.target.classList.add('show');
+        }
+      });
+    }, {threshold:0.12});
+    reveals.forEach(r=>obs.observe(r));
+
+    // footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // small enhancement: downloadBtn opens resume in same tab if not available; keep default href to /resume.pdf
+    document.getElementById('downloadCv').addEventListener('click',(e)=>{
+      // fallback behaviour just scroll to resume
+      document.querySelector('#resume').scrollIntoView({behavior:'smooth'});
+    });
+
+    // smooth scroll for internal links
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', function(e){
+        const id = this.getAttribute('href');
+        if(id === '#') return;
+        e.preventDefault();
+        const el = document.querySelector(id);
+        if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+      });
+    });
+  </script>
+</body>
+</html>
